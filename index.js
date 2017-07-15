@@ -9,9 +9,6 @@ var util = require('util');
 var MAX_WIDTH  = 100;
 var MAX_HEIGHT = 100;
 
-// 入力バケット
-var SRC_BUCKET = "kamata.resize.image.org"
-// 出力バケット
 var DIST_BUCKET = "kamata.resize.image"
 
 // get reference to S3 client 
@@ -20,8 +17,7 @@ var s3 = new AWS.S3();
 exports.handler = function(event, context, callback) {
     // Read options from the event.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
-//    var srcBucket = event.Records[0].s3.bucket.name;
-    var srcBucket = SRC_BUCKET;
+    var srcBucket = event.Records[0].s3.bucket.name;
     // Object key may have spaces or unicode non-ASCII characters.
     var srcKey    = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
     var dstBucket = DIST_BUCKET;
